@@ -5,7 +5,7 @@ metadata:
 spec:
   forProvider:
     source: Remote
-    module: git::https://github.com/nethopper2/cloudtacular.io.git/iac/tf/vpc-aws
+    module: git::https://github.com/nethopper2/cloudtacular.io.git//iac/tf/vpc-aws
   writeConnectionSecretToRef:
     namespace: devops-admin
     name: cloudtacular-vpc
