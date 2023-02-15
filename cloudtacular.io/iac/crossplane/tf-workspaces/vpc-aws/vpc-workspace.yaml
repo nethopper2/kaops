@@ -1,0 +1,13 @@
+apiVersion: tf.crossplane.io/v1alpha1
+kind: Workspace
+metadata:
+  name: cloudtacular-vpc
+spec:
+  forProvider:
+    source: Remote
+    module: git::https://github.com/nethopper2/cloudtacular.io/iac/tf/vpc-aws
+  writeConnectionSecretToRef:
+    namespace: devops-admin-tf
+    name: cloudtacular-vpc
+  providerConfigRef:
+    name: tfconfig

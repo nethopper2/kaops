@@ -1,0 +1,17 @@
+apiVersion: tf.crossplane.io/v1alpha1
+kind: Workspace
+metadata:
+  name: cloudtacular-eks-dev
+  namespace: devops-admin
+spec:
+  forProvider:
+    source: Remote
+    module: git::https://github.com/nethopper2/cloudtacular.io/iac/tf/eks-aws
+    vars:
+    - key: region
+      value: us-east-2
+  writeConnectionSecretToRef:
+    namespace: tfw-cloudtacular-eks-dev
+    name: cloudtacular-eks-dev
+  providerConfigRef:
+    name: tfconfig
