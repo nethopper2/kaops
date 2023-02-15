@@ -7,7 +7,7 @@ spec:
     source: Remote
     module: git::https://github.com/nethopper2/cloudtacular.io/iac/tf/vpc-aws
   writeConnectionSecretToRef:
-    namespace: devops-admin-tf
+    namespace: devops-admin
     name: cloudtacular-vpc
   providerConfigRef:
     name: tfconfig
