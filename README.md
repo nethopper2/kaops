@@ -14,5 +14,5 @@ The following illustration shows the structure for each tenant.
 | &emsp;&emsp;&emsp;/events/<app> | Events working directory | Per-app event source manifests |
 | &emsp;&emsp;&emsp;/rollouts | Events working directory | Not currently used |
 | &emsp;&emsp;&emsp;/workflows | Workflow manifests ||
-| &emsp;/iac/xplane | Customer terraform module source | Demo existing TF support |
-| &emsp;&emsp;&emsp;/tf-workspace | Crossplane workspace for its TF provider | Sub-directory per workspace (e.g. dev/prod/qa)| 
+| &emsp;/iac/crossplane | Crossplane Workspaces | Provider type directories |
+| &emsp;&emsp;&emsp;/tf-workspace | TF provider workspaces | Sub-directory per customer instance (e.g. dev/prod/qa)| 
