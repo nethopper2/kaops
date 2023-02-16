@@ -6,7 +6,7 @@ metadata:
 spec:
   forProvider:
     source: Remote
-    module: git::https://github.com/nethopper2/cloudtacular.io/iac/tf/eks-aws
+    module: git::https://github.com/nethopper2/cloudtacular.io.git/iac/tf/eks-aws
     vars:
     - key: region
       value: us-east-2
