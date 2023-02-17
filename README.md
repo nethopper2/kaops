@@ -8,7 +8,7 @@ The following illustration shows the structure for each tenant.
 
 | DIRECTORY | DESCRIPTION | NOTES |
 | :--- | :--- | :--- |
-| **cloudtacular** | Fictional tenant customer *Cloudtacular.io* ||
+| **cloudflow** | Fictional tenant customer *Cloudflow* ||
 | &emsp;/argo | Directory for Argo framework tools ||
 | &emsp;&emsp;&emsp;/cd | ArgoCD working directory | Not currently used; CD data managed in the agent |
 | &emsp;&emsp;&emsp;/events/<app> | Events working directory | Per-app event source manifests |
