@@ -11,7 +11,7 @@ spec:
     - key: region
       value: us-east-2
   writeConnectionSecretToRef:
-    namespace: tfw-cloudflow
+    namespace: tfw-cloudflow-eks-hub
     name: cloudflow-eks-hub
   providerConfigRef:
     name: tfconfig
