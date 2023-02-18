@@ -6,10 +6,12 @@ metadata:
 spec:
   forProvider:
     source: Remote
-    module: git::https://github.com/nethopper2/cloudflow/iac/tf/eks-aws
+    module: git::https://github.com/nethopper2/cloudflow.git//iac/tf/eks-aws
     vars:
     - key: region
       value: us-east-2
+    - key: cluster-name-suffix
+      value: eks-qa 
   writeConnectionSecretToRef:
     namespace: tfw-cloudflow-eks-qa
     name: cloudflow-eks-qa
