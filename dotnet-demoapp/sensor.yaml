@@ -1,19 +1,19 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Sensor
 metadata:
-  name: cloudflow-demo-app
+  name: dotnet-demoapp
   namespace: argo-events
 spec:
   template:
     serviceAccountName: events-workflows-sa
   dependencies:
-    - name: build-container
-      eventSourceName: cloudflow-demo-app
-      eventName: demo-app-push
+    - name: buildkit
+      eventSourceName: dotnet-demoapp
+      eventName: dotnet-demoapp-merge
   triggers:
     - template:
-        conditions: build-container
-        name: cloudflow-container-pipeline
+        conditions: buildkit
+        name: dotnet-container-pipeline
         argoWorkflow:
           operation: submit
           source:
@@ -21,18 +21,16 @@ spec:
               apiVersion: argoproj.io/v1alpha1
               kind: Workflow
               metadata:
-                name: cloudflow-
+                name: dotnet-demoapp-
               spec:
                 serviceAccountName: events-workflows-sa
                 entrypoint: main
                 arguments:
                   parameters:
                     - name: image
-                      value: nethopper/demoapp:workflow-build
                     - name: branch
-                      value: develop
                     - name: path
-                      value: apps/demoapp
+                      value: build
                     - name: username
                     - name: repo
                 volumeClaimTemplates:
@@ -81,21 +79,31 @@ spec:
                               - name: image
                                 value: "{{workflow.parameters.image}}"
           parameters:
-            # workflow-name
+           # workflow-name
             - src:
-                dependencyName: build-container
-                dataKey: body.after
+                dependencyName: buildkit
+                dataTemplate: "{{ .Input.body.pull_request.head.sha | substr 0 7 }}-{{ .Input.body.pull_request.title }}"
               dest: metadata.name
               operation: append
+            # image-tag
+            - src:
+                dependencyName: buildkit
+                dataTemplate: "nethopper/dotnet-demoapp:{{ .Input.body.pull_request.title }}"
+              dest: spec.arguments.parameters.0.value
+            # branch
+            - src:
+                dependencyName: buildkit
+                dataKey: body.pull_request.base.ref
+              dest: spec.arguments.parameters.1.value
             # git-username
             - src:
-                dependencyName: build-container
-                dataKey: body.sender.login
+                dependencyName: buildkit
+                dataKey: body.pull_request.user.login
               dest: spec.arguments.parameters.3.value
             # repo-name
             - src:
-                dependencyName: build-container
-                dataKey: body.repository.full_name
+                dependencyName: buildkit
+                dataKey: body.pull_request.base.repo.full_name
               dest: spec.arguments.parameters.4.value
       retryStrategy:
         steps: 3
