@@ -1,1 +1,112 @@
-
+---
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
+metadata:
+  name: extract-git-token
+  namespace: argo-events
+spec:
+  serviceAccountName: events-workflows-sa
+  templates:
+    - name: extract
+      inputs:
+        parameters:
+          - name: secretName
+          - name: secretKey
+      container:
+        image: alpine:latest
+        volumeMounts:
+          - mountPath: /work
+            name: work
+        workingDir: /work
+        command:
+          - sh
+          - "-c"
+        args:
+          - echo -n "$SECRET_VALUE" > secret-value
+        env:
+          - name: SECRET_VALUE
+            valueFrom:
+              secretKeyRef:
+                name: "{{inputs.parameters.secretName}}"
+                key: "{{inputs.parameters.secretKey}}"
+      outputs:
+        parameters:
+          - name: secretValue
+            valueFrom:
+              path: secret-value
+---
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
+metadata:
+  name: clone-git-repo
+  namespace: argo-events
+spec:
+  serviceAccountName: events-workflows-sa
+  templates:
+    - name: clone
+      inputs:
+        parameters:
+          - name: branch
+          - name: username
+          - name: repo
+          - name: token
+      container:
+        volumeMounts:
+          - mountPath: /work
+            name: work
+        image: alpine/git:v2.26.2
+        workingDir: /work
+        args:
+          - clone
+          - --depth
+          - "1"
+          - --branch
+          - "{{inputs.parameters.branch}}"
+          - --single-branch
+          - "https://{{inputs.parameters.username}}:{{inputs.parameters.token}}@github.com/{{inputs.parameters.repo}}.git"
+          - "repo"
+---
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
+metadata:
+  name: build-push-docker-image
+  namespace: argo-events
+spec:
+  serviceAccountName: events-workflows-sa
+  templates:
+    - name: build-push
+      inputs:
+        parameters:
+          - name: path
+          - name: image
+      volumes:
+        - name: docker-config
+          secret:
+            secretName: docker-config
+      container:
+        image: moby/buildkit:v0.9.3-rootless
+        volumeMounts:
+          - name: work
+            mountPath: /work
+          - name: docker-config
+            mountPath: /.docker
+        workingDir: /work/repo/{{inputs.parameters.path}}
+        env:
+          - name: BUILDKITD_FLAGS
+            value: --oci-worker-no-process-sandbox
+          - name: DOCKER_CONFIG
+            value: /.docker
+        command:
+          - buildctl-daemonless.sh
+        args:
+          - build
+          - --frontend
+          - dockerfile.v0
+          - --local
+          - context=.
+          - --local
+          - dockerfile=.
+          - --output
+          - type=image,name=docker.io/{{inputs.parameters.image}},push=true
+        securityContext:
+          privileged: true
