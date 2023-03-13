@@ -1,1 +1,101 @@
-
+apiVersion: argoproj.io/v1alpha1
+kind: Sensor
+metadata:
+  name: cloudflow-demo-app
+  namespace: argo-events
+spec:
+  template:
+    serviceAccountName: events-workflows-sa
+  dependencies:
+    - name: build-container
+      eventSourceName: cloudflow-demo-app
+      eventName: demo-app-push
+  triggers:
+    - template:
+        conditions: build-container
+        name: cloudflow-container-pipeline
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                name: cloudflow-
+              spec:
+                serviceAccountName: events-workflows-sa
+                entrypoint: main
+                arguments:
+                  parameters:
+                    - name: image
+                      value: nethopper/demoapp:workflow-build
+                    - name: branch
+                      value: develop
+                    - name: path
+                      value: apps/demoapp
+                    - name: username
+                    - name: repo
+                volumeClaimTemplates:
+                  - metadata:
+                      name: work
+                    spec:
+                      accessModes: ["ReadWriteOnce"]
+                      resources:
+                        requests:
+                          storage: 64Mi
+                templates:
+                  - name: main
+                    steps:
+                      - - name: call-extract-template
+                          templateRef:
+                            name: extract-git-token
+                            template: extract
+                          arguments:
+                            parameters:
+                              - name: secretName
+                                value: github-access
+                              - name: secretKey
+                                value: token
+                      - - name: call-clone-template
+                          templateRef:
+                            name: clone-git-repo
+                            template: clone
+                          arguments:
+                            parameters:
+                              - name: branch
+                                value: "{{workflow.parameters.branch}}"
+                              - name: username
+                                value: "{{workflow.parameters.username}}"
+                              - name: repo
+                                value: "{{workflow.parameters.repo}}"
+                              - name: token
+                                value: "{{steps.call-extract-template.outputs.parameters.secretValue}}"
+                      - - name: call-build-push-template
+                          templateRef:
+                            name: build-push-docker-image
+                            template: build-push
+                          arguments:
+                            parameters:
+                              - name: path
+                                value: "{{workflow.parameters.path}}"
+                              - name: image
+                                value: "{{workflow.parameters.image}}"
+          parameters:
+            # workflow-name
+            - src:
+                dependencyName: build-container
+                dataKey: body.after
+              dest: metadata.name
+              operation: append
+            # git-username
+            - src:
+                dependencyName: build-container
+                dataKey: body.sender.login
+              dest: spec.arguments.parameters.3.value
+            # repo-name
+            - src:
+                dependencyName: build-container
+                dataKey: body.repository.full_name
+              dest: spec.arguments.parameters.4.value
+      retryStrategy:
+        steps: 3
