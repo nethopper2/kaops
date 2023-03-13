@@ -3,7 +3,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: EventSource
 metadata:
-  name: cloudflow-demo-app
+  name: dotnet-demo-app
   namespace: argo-events
 spec:
   github:
@@ -11,7 +11,7 @@ spec:
       repositories:
         - owner: nethopper2
           names:
-            - cloudflow
+            - dotnet-demoapp
       # Github will send events to following port and endpoint
       webhook:
         # endpoint to listen to events on
@@ -22,13 +22,13 @@ spec:
         method: POST
         # url the event-source will use to register at Github.
         # this is http and NOT https because the cluster is only accessible via http. the warning message when accessing argo server is representative of this.
-        url: http://52.9.85.140:31001
+        url: http://24.62.245.230:31001
       # You can find more info on https://developer.github.com/v3/activity/events/types/
       events:
         - push
       filter:
         # after heads/ is the name of the branch you want to watch for events on.         
-        expression: "(body.ref == 'refs/heads/develop')"
+        expression: "(body.action == 'closed') && (body.pull_request.base.ref == 'develop') && (body.pull_request.merged == true)"
       # if apiToken is provided controller will create webhook on GitHub repo
       apiToken:
         # Name of the K8s secret that contains the access token
@@ -46,7 +46,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: cloudflow-demo-app
+  name: dotnet-demo-app
   namespace: argo-events
 spec:
   ports:
@@ -55,5 +55,5 @@ spec:
     targetPort: 31001
     nodePort: 31001
   selector:
-    eventsource-name: cloudflow-demo-app
+    eventsource-name: dotnet-demo-app
   type: NodePort
