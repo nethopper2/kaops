@@ -1,1 +1,59 @@
-
+---
+# Info on GitHub Webhook: https://developer.github.com/v3/repos/hooks/#create-a-hook
+apiVersion: argoproj.io/v1alpha1
+kind: EventSource
+metadata:
+  name: cloudflow-demo-app
+  namespace: argo-events
+spec:
+  github:
+    demo-app-push:
+      repositories:
+        - owner: nethopper2
+          names:
+            - cloudflow
+      # Github will send events to following port and endpoint
+      webhook:
+        # endpoint to listen to events on
+        endpoint: /push
+        # port to run internal HTTP server on
+        port: "31001"
+        # HTTP request method to allow. In this case, only POST requests are accepted
+        method: POST
+        # url the event-source will use to register at Github.
+        # this is http and NOT https because the cluster is only accessible via http. the warning message when accessing argo server is representative of this.
+        url: http://52.9.85.140:31001
+      # You can find more info on https://developer.github.com/v3/activity/events/types/
+      events:
+        - push
+      filter:
+        # after heads/ is the name of the branch you want to watch for events on.         
+        expression: "(body.ref == 'refs/heads/develop')"
+      # if apiToken is provided controller will create webhook on GitHub repo
+      apiToken:
+        # Name of the K8s secret that contains the access token
+        name: github-access
+        # Key within the K8s secret whose corresponding value (must be base64 encoded) is access token
+        key: token
+      # type of the connection between event-source and Github.
+      # You should set it to false to avoid man-in-the-middle and other attacks.
+      insecure: false
+      # Determines if notifications are sent when the webhook is triggered
+      active: true
+      # The media type used to serialize the payloads
+      contentType: json
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cloudflow-demo-app
+  namespace: argo-events
+spec:
+  ports:
+  - port: 31001
+    protocol: TCP
+    targetPort: 31001
+    nodePort: 31001
+  selector:
+    eventsource-name: cloudflow-demo-app
+  type: NodePort
