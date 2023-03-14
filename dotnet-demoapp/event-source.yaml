@@ -7,7 +7,7 @@ metadata:
   namespace: argo-events
 spec:
   github:
-    dotenet-demoapp-merge:
+    dotnet-demoapp-merge:
       repositories:
         - owner: nethopper2
           names:
