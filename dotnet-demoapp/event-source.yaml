@@ -25,7 +25,7 @@ spec:
         url: http://24.62.245.230:31001
       # You can find more info on https://developer.github.com/v3/activity/events/types/
       events:
-        - push
+        - pull_request
       filter:
         # after heads/ is the name of the branch you want to watch for events on.         
         expression: "(body.action == 'closed') && (body.pull_request.base.ref == 'develop') && (body.pull_request.merged == true)"
