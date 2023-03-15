@@ -105,7 +105,7 @@ spec:
           - --local
           - context=.
           - --local
-          - dockerfile=.
+          - dockerfile=./build
           - --output
           - type=image,name=docker.io/{{inputs.parameters.image}},push=true
         securityContext:
