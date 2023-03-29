@@ -1,19 +1,19 @@
 apiVersion: tf.crossplane.io/v1alpha1
 kind: Workspace
 metadata:
-  name: cloudflow-eks-hub
+  name: cloudflow-eks-prod
   namespace: devops-admin
 spec:
   forProvider:
     source: Remote
-    module: git::https://github.com/nethopper2/cloudflow.git//iac/tf/eks-aws
+    module: git::https://github.com/nethopper2/cloudflow.git//iac/tf/aws/eks-aws
     vars:
     - key: region
-      value: us-east-2
+      value: us-west-2
     - key: cluster-name-suffix
-      value: eks-hub 
+      value: eks-prod 
   writeConnectionSecretToRef:
-    namespace: tfw-cloudflow-eks-hub
-    name: cloudflow-eks-hub
+    namespace: tfw-cloudflow-eks-prod
+    name: cloudflow-eks-prod
   providerConfigRef:
     name: tfconfig
