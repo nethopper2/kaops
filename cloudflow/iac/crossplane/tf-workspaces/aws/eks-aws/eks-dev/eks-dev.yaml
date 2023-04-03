@@ -11,7 +11,7 @@ spec:
     - key: region
       value: us-east-2
     - key: cluster-name-suffix
-      value: eks-dev 
+      value: eks-dev-2 
   writeConnectionSecretToRef:
     namespace: tfw-cloudflow-eks-dev
     name: cloudflow-eks-dev
