@@ -11,7 +11,7 @@ spec:
     - key: region
       value: us-central1
     - key: project_id
-      value: nh-dan-demos
+      value: test-dd662 
     # varFiles:
     # - source: SecretKey
     #   secretKeyRef:
