@@ -11,7 +11,7 @@ spec:
     - key: region
       value: us-central1
     - key: project_id
-      value: cloudflow-gke 
+      value: nh-dan-demos
     # varFiles:
     # - source: SecretKey
     #   secretKeyRef:
