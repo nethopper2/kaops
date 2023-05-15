@@ -2,7 +2,7 @@ apiVersion: tf.crossplane.io/v1alpha1
 kind: Workspace
 metadata:
   name: cloudflow-eks-hub
-  namespace: devops-admin
+  namespace: nethopper 
 spec:
   forProvider:
     source: Remote
@@ -13,7 +13,7 @@ spec:
     - key: cluster-name-suffix
       value: eks-hub 
   writeConnectionSecretToRef:
-    namespace: tfw-cloudflow-eks-hub
+    namespace: default
     name: cloudflow-eks-hub
   providerConfigRef:
     name: tfconfig

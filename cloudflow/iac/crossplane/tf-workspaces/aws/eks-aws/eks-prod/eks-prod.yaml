@@ -13,7 +13,7 @@ spec:
     - key: cluster-name-suffix
       value: eks-prod 
   writeConnectionSecretToRef:
-    namespace: tfw-cloudflow-eks-prod
+    namespace: default 
     name: cloudflow-eks-prod
   providerConfigRef:
     name: tfconfig
