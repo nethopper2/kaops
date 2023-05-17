@@ -7,7 +7,7 @@ spec:
     source: Remote
     module: git::https://github.com/nethopper2/cloudflow.git//iac/tf/aws/vpc-aws
   writeConnectionSecretToRef:
-    namespace: nethopper
+    namespace: default
     name: cloudflow-vpc
   providerConfigRef:
     name: tfconfig
