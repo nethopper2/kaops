@@ -1,0 +1,19 @@
+apiVersion: tf.crossplane.io/v1alpha1
+kind: Workspace
+metadata:
+  name: cloudflow-eks-edge
+  namespace: nethopper
+spec:
+  forProvider:
+    source: Remote
+    module: git::https://github.com/nethopper2/cloudflow.git//iac/tf/aws/eks-aws/edge
+    vars:
+    - key: region
+      value: us-west-2
+    - key: cluster-name-suffix
+      value: eks-edge 
+  writeConnectionSecretToRef:
+    namespace: default 
+    name: cloudflow-eks-edge
+  providerConfigRef:
+    name: tfconfig
