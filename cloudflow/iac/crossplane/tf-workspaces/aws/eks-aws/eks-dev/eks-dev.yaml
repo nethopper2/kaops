@@ -9,9 +9,9 @@ spec:
     module: git::https://github.com/nethopper2/cloudflow.git//iac/tf/aws/eks-aws
     vars:
     - key: region
-      value: us-west-2
+      value: us-east-2
     - key: cluster-name-suffix
-      value: eks-dev-2 
+      value: eks-dev
   writeConnectionSecretToRef:
     namespace: default
     name: cloudflow-eks-dev
