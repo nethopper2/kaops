@@ -16,4 +16,4 @@ spec:
     namespace: default 
     name: cloudflow-eks-qa
   providerConfigRef:
-    name: tfconfig
+    name: awsconfig
