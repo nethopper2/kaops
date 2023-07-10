@@ -16,4 +16,4 @@ spec:
     namespace: default 
     name: cloudflow-eks-prod
   providerConfigRef:
-    name: tfconfig2
+    name: tfconfig
