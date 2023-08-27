@@ -6,10 +6,11 @@ spec:
   forProvider:
     source: Remote
     module: git::https://github.com/nethopper2/cloudflow.git//iac/tf/azure/aks
-    # NOTE: Dont' define variables that you don't use, because this causes TF warning that could complicate Crossplane status
-#     vars:
-#     - key: region
-#       value: westus2
+    vars:
+    - key: region
+      value: westus2
+    - key: cluster-name-suffix
+      value: aks-west
     varFiles:
     - source: SecretKey
       secretKeyRef:
