@@ -1,7 +1,7 @@
 apiVersion: tf.crossplane.io/v1alpha1
 kind: Workspace
 metadata:
-  name: aks-azure
+  name: aks-azure-west
 spec:
   forProvider:
     source: Remote
@@ -19,6 +19,6 @@ spec:
         key: terraformtfvars
   writeConnectionSecretToRef:
     namespace: default
-    name: terraform-aks-azure
+    name: terraform-aks-azure-west
   providerConfigRef:
     name: azureconf
