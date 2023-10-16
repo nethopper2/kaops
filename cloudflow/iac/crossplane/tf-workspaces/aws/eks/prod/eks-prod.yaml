@@ -6,7 +6,7 @@ metadata:
 spec:
   forProvider:
     source: Remote
-    module: git::https://github.com/nethopper2/cloudflow.git?ref=k8s-update-demo//iac/tf/aws/eks-aws
+    module: git::https://github.com/nethopper2/cloudflow.git?ref=ddonahue/k8s-update-demo//iac/tf/aws/eks-aws
     vars:
     - key: region
       value: us-west-2
