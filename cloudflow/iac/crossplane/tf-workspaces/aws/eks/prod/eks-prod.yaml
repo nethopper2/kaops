@@ -1,7 +1,7 @@
 apiVersion: tf.crossplane.io/v1alpha1
 kind: Workspace
 metadata:
-  name: cloudflow-eks-prod
+  name: cloudflow-eks-123
   namespace: nethopper
 spec:
   forProvider:
@@ -11,11 +11,11 @@ spec:
     - key: region
       value: us-west-2
     - key: cluster-name-suffix
-      value: eks-prod
+      value: eks-123
     - key: k8s-version
       value: "1.23"
   writeConnectionSecretToRef:
     namespace: default 
-    name: cloudflow-eks-prod
+    name: cloudflow-eks-123
   providerConfigRef:
     name: awsconfig
