@@ -13,7 +13,7 @@ spec:
     - key: cluster-name-suffix
       value: eks-dev
     - key: k8s-version
-      value: "1.23"
+      value: "1.28"
   writeConnectionSecretToRef:
     namespace: default
     name: cloudflow-eks-dev
