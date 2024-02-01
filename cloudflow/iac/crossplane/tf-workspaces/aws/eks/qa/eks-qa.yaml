@@ -11,7 +11,9 @@ spec:
     - key: region
       value: us-west-2
     - key: cluster-name-suffix
-      value: eks-qa 
+      value: eks-129
+    - key: k8s-version
+      value: "1.29"
   writeConnectionSecretToRef:
     namespace: default 
     name: cloudflow-eks-qa
