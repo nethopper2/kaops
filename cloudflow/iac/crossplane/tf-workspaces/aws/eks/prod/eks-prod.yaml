@@ -11,7 +11,9 @@ spec:
     - key: region
       value: us-west-2
     - key: cluster-name-suffix
-      value: eks-prod 
+      value: eks-125
+    - key: k8s-version
+      value: "1.25"
   writeConnectionSecretToRef:
     namespace: default 
     name: cloudflow-eks-prod

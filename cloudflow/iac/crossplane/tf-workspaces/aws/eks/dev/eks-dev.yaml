@@ -11,7 +11,7 @@ spec:
     - key: region
       value: us-east-2
     - key: cluster-name-suffix
-      value: eks-dev
+      value: eks-128
     - key: k8s-version
       value: "1.28"
   writeConnectionSecretToRef:
