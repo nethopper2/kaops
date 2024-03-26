@@ -1,0 +1,29 @@
+apiVersion: tf.crossplane.io/v1alpha1
+kind: Workspace
+metadata:
+  name: cloudflow-route53
+  namespace: nethopper
+spec:
+  forProvider:
+    source: Remote
+    module: git::https://github.com/nethopper2/cloudflow.git//iac/tf/aws/route53
+    vars:
+    - key: active-url
+      value: "active.mynethopper.net"
+    - key: primary-name
+      value: "primary"
+    - key: primary-url
+      value: "primary.mynethopper.net"
+    - key: primary-weight
+      value: 1 
+    - key: canary-name
+      value: "canary"
+    - key: primary-url
+      value: "canary.mynethopper.net"
+    - key: primary-weight
+      value: 0 
+  writeConnectionSecretToRef:
+    namespace: default 
+    name: cloudflow-route53
+  providerConfigRef:
+    name: awsconfig
