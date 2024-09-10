@@ -1,7 +1,7 @@
 apiVersion: tf.crossplane.io/v1alpha1
 kind: Workspace
 metadata:
-  name: cloudflow-eks-125
+  name: eks-125
   namespace: nethopper
 spec:
   forProvider:
@@ -16,6 +16,6 @@ spec:
       value: "1.25"
   writeConnectionSecretToRef:
     namespace: default 
-    name: cloudflow-eks-125
+    name: eks-125
   providerConfigRef:
     name: awsconfig
