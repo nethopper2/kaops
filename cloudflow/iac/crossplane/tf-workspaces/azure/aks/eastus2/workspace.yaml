@@ -1,0 +1,24 @@
+apiVersion: tf.crossplane.io/v1alpha1
+kind: Workspace
+metadata:
+  name: aks-azure
+spec:
+  forProvider:
+    source: Remote
+    module: git::https://github.com/nethopper2/cloudflow.git//iac/tf/azure/aks
+    vars:
+    - key: region
+      value: eastus2
+    - key: cluster-name-suffix
+      value: aks-east2
+    varFiles:
+    - source: SecretKey
+      secretKeyRef:
+        namespace: default
+        name: vpc-azure-tfvars
+        key: terraformtfvars
+  writeConnectionSecretToRef:
+    namespace: default
+    name: terraform-aks-azure
+  providerConfigRef:
+    name: azureconf
