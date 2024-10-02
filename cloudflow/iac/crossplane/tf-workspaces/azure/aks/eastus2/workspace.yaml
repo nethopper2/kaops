@@ -19,6 +19,6 @@ spec:
         key: terraformtfvars
   writeConnectionSecretToRef:
     namespace: default
-    name: terraform-aks-azure
+    name: terraform-aks-azure2
   providerConfigRef:
     name: azureconf
