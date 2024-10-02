@@ -1,7 +1,7 @@
 apiVersion: tf.crossplane.io/v1alpha1
 kind: Workspace
 metadata:
-  name: aks-azure-west
+  name: aks-azure-west3
 spec:
   forProvider:
     source: Remote
