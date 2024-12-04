@@ -2,7 +2,7 @@ apiVersion: tf.crossplane.io/v1alpha1
 kind: Workspace
 metadata:
   name: cloudflow-eks-129
-  namespace: nethopper
+  namespace: kaops
 spec:
   forProvider:
     source: Remote
