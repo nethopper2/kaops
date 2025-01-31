@@ -11,6 +11,12 @@ spec:
       value: eastus
     - key: cluster-name-suffix
       value: aks-east
+    - key: client_id
+      value: 40872f6d-74b1-4f0c-a560-7d754d8fd3dd
+    - key: tenant_id
+      value: 6cea5d02-bfe1-4887-89f4-1dae00a54c60
+    - key: subscription_id
+      value: b471e439-04ca-42fe-af9c-a2eedb46cdfa
     varFiles:
     - source: SecretKey
       secretKeyRef:
