@@ -1,0 +1,13 @@
+apiVersion: tf.crossplane.io/v1alpha1
+kind: Workspace
+metadata:
+  name: blueprint-vpc
+spec:
+  forProvider:
+    source: Remote
+    module: git::https://github.com/nethopper2/blueprints.git//iac/aws/vpc
+  writeConnectionSecretToRef:
+    namespace: default
+    name: tf-blueprint-vpc
+  providerConfigRef:
+    name: awsconfig-priv
