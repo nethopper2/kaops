@@ -1,0 +1,21 @@
+apiVersion: tf.crossplane.io/v1alpha1
+kind: Workspace
+metadata:
+  name: cloudflow-eks-hub
+  namespace: nethopper
+spec:
+  forProvider:
+    source: Remote
+    module: git::https://github.com/nethopper2/cloudflow.git//iac/tf/aws/eks-hub
+    vars:
+    - key: region
+      value: us-west-2
+    - key: cloudflow-eks-hub
+      value: eks-129
+    - key: k8s-version
+      value: "1.29"
+  writeConnectionSecretToRef:
+    namespace: default 
+    name: cloudflow-eks-hub
+  providerConfigRef:
+    name: awsconfig
