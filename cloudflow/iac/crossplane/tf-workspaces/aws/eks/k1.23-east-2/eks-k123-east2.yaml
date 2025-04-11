@@ -11,11 +11,11 @@ spec:
     - key: region
       value: us-east-2
     - key: cluster-name-suffix
-      value: eks-123
+      value: eks-129
     - key: k8s-version
-      value: "1.23"
+      value: "1.29"
   writeConnectionSecretToRef:
     namespace: default 
-    name: cloudflow-eks-123
+    name: cloudflow-eks-129
   providerConfigRef:
     name: awsconfig
